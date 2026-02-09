@@ -15,6 +15,14 @@
 #include <cstddef>
 #include <memory>
 
+// Platform-specific CPU pause instruction (must be defined before use)
+#ifdef _MSC_VER
+#include <intrin.h>
+#pragma intrinsic(_mm_pause)
+#else
+#define _mm_pause() __builtin_ia32_pause()
+#endif
+
 // Cache line size for padding (typically 64 bytes on modern CPUs)
 constexpr size_t CACHE_LINE_SIZE = 64;
 
@@ -192,13 +200,5 @@ private:
   alignas(CACHE_LINE_SIZE) std::atomic<size_t> head_;
   alignas(CACHE_LINE_SIZE) std::atomic<size_t> tail_;
 };
-
-// Platform-specific CPU pause instruction
-#ifdef _MSC_VER
-#include <intrin.h>
-#pragma intrinsic(_mm_pause)
-#else
-#define _mm_pause() __builtin_ia32_pause()
-#endif
 
 #endif // LOCK_FREE_QUEUE_H

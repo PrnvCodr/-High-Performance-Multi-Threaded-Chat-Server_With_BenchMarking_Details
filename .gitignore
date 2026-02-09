@@ -1,7 +1,30 @@
+# Build outputs
 build/
 *.exe
 *.obj
 *.o
+*.pdb
+
+# IDE
+.vs/
+.vscode/
+*.suo
+*.user
+*.sln.docstates
+
+# Logs
 *.log
 chat_logs/
-.vscode/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Backup files
+*.bak
+*.orig
