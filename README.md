@@ -2,6 +2,7 @@
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](.)
 [![Tests](https://img.shields.io/badge/tests-16%2F16%20passed-brightgreen)](.)
+[![Pipeline](https://img.shields.io/badge/Jenkins-Pipeline-blue?logo=jenkins&logoColor=white)](.)
 [![License](https://img.shields.io/badge/license-MIT-blue)](.)
 
 A **FAANG-level** high-performance chat server built for Windows using modern C++17, featuring lock-free data structures, asynchronous I/O, and comprehensive performance benchmarking.
@@ -32,6 +33,7 @@ A **FAANG-level** high-performance chat server built for Windows using modern C+
 - ✅ **Private whispers** - Secure direct messaging
 - ✅ **Admin commands** - Mute, kick, ban moderation
 - ✅ **Message history** - Persistent chat logs
+- ✅ **CI/CD Pipeline** - Jenkins automated build, test & deploy
 
 ---
 
@@ -145,6 +147,8 @@ build\stress_test.exe 127.0.0.1 8080 50 100
 ##  Project Structure
 
 ```
+├── Jenkinsfile             # Jenkins CI/CD Pipeline
+├── CMakeLists.txt          # CMake build configuration
 ├── server.cpp              # Main server with O(1) lookups
 ├── client.cpp              # Chat client
 ├── tests.cpp               # Unit test suite (16 tests)
@@ -164,7 +168,6 @@ build\stress_test.exe 127.0.0.1 8080 50 100
 ├── build.bat               # MSVC build script
 ├── DEMO_GUIDE.bat          # Interactive demo
 ├── BENCHMARK_RESULTS.md    # Generated benchmark results
-├── Performance_Benchmarks.tex # LaTeX performance report
 └── README.md               # This file
 ```
 
@@ -202,6 +205,74 @@ See [BENCHMARK_RESULTS.md](BENCHMARK_RESULTS.md) for detailed metrics.
 | 4P/4C concurrent | 6.2M ops/sec | - |
 | Task dispatch | 808K ops/sec | 6.90 µs |
 | Full pipeline | 186K msg/sec | 1.00 µs |
+
+---
+
+## 🔄 CI/CD Pipeline
+
+This project includes a **Jenkins Declarative Pipeline** ([`Jenkinsfile`](Jenkinsfile)) for automated build, test, and deployment.
+
+### Pipeline Stages
+
+```
+┌──────────┐    ┌───────┐    ┌────────────┐    ┌────────────┐    ┌─────────────────┐    ┌─────────┐
+│ Checkout │───▶│ Build │───▶│ Unit Tests │───▶│ Benchmarks │───▶│ Static Analysis │───▶│ Archive │
+└──────────┘    └───────┘    └────────────┘    └────────────┘    └─────────────────┘    └─────────┘
+```
+
+| Stage | Description |
+|-------|-------------|
+| **Checkout** | Clean workspace + clone source from Git |
+| **Build** | Compile all 5 targets via CMake or MinGW |
+| **Unit Tests** | Run 16 tests, convert to JUnit XML, publish results |
+| **Benchmarks** | Run performance benchmarks, archive `BENCHMARK_RESULTS.md` |
+| **Static Analysis** | Code quality scan via `cppcheck` (if installed) |
+| **Archive** | Fingerprint & store `.exe` binaries for download |
+
+### Configurable Build Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `BUILD_TYPE` | Choice | `Release` | CMake build type (`Release` / `Debug` / `RelWithDebInfo`) |
+| `RUN_BENCHMARKS` | Boolean | `true` | Enable/disable the benchmark stage |
+| `USE_CMAKE` | Boolean | `true` | `true` = CMake build, `false` = `build_mingw.bat` |
+
+### Jenkins Setup
+
+1. **Prerequisites** on the Windows build agent:
+   - MinGW-w64 (g++ 6.3.0+) or Visual Studio
+   - CMake 3.15+ (if using CMake mode)
+   - Git
+   - *(Optional)* `cppcheck` for static analysis
+
+2. **Create Pipeline Job:**
+   - **Jenkins Dashboard** → **New Item** → **Pipeline**
+   - **Pipeline** → Definition: **Pipeline script from SCM**
+   - **SCM:** Git → Repository URL: `<your-repo-url>`
+   - **Script Path:** `Jenkinsfile`
+   - Click **Save** → **Build with Parameters**
+
+3. **Install Required Plugins:**
+
+   | Plugin | Purpose |
+   |--------|---------|
+   | Pipeline | Jenkinsfile support |
+   | Git | Source checkout |
+   | JUnit | Test result dashboards |
+   | Timestamper | Console timestamps |
+   | Workspace Cleanup | `cleanWs()` support |
+
+4. **Notifications** *(optional)*:
+   Uncomment the email/Slack blocks in `Jenkinsfile` `post` section to enable build notifications.
+
+### Pipeline Features
+
+- ⚡ **Parallel compilation** using all CPU cores (`-j %NUMBER_OF_PROCESSORS%`)
+- 📊 **JUnit integration** — custom `[PASS]/[FAIL]` output auto-converted to JUnit XML
+- 🔁 **Build log rotation** — keeps last 10 builds, artifacts for last 5
+- 🔒 **Concurrent build prevention** — `disableConcurrentBuilds()`
+- ⏱️ **30-minute timeout** — prevents stuck builds
+- 📧 **Notification hooks** — Email & Slack (ready to enable)
 
 ---
 

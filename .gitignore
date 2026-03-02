@@ -28,3 +28,9 @@ Thumbs.db
 # Backup files
 *.bak
 *.orig
+
+# Jenkins
+.jenkins/
+test-results.xml
+cppcheck-report.xml
+*_output.txt
