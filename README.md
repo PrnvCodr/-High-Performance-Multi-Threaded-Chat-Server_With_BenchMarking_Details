@@ -6,8 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue)](.)
 
 A high-performance chat server built for Windows using modern C++17, featuring lock-free data structures, asynchronous I/O, and comprehensive performance benchmarking.
-
-![Chat Server Demo](demo_screenshot.png)
+<img width="1457" height="843" alt="Screenshot 2026-03-02 234422" src="https://github.com/user-attachments/assets/a3ef63b3-3a9c-4363-9ae9-f04126237b5d" />
 
 ---
 
