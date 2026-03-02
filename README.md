@@ -5,7 +5,7 @@
 [![Pipeline](https://img.shields.io/badge/Jenkins-Pipeline-blue?logo=jenkins&logoColor=white)](.)
 [![License](https://img.shields.io/badge/license-MIT-blue)](.)
 
-A **FAANG-level** high-performance chat server built for Windows using modern C++17, featuring lock-free data structures, asynchronous I/O, and comprehensive performance benchmarking.
+A high-performance chat server built for Windows using modern C++17, featuring lock-free data structures, asynchronous I/O, and comprehensive performance benchmarking.
 
 ![Chat Server Demo](demo_screenshot.png)
 
