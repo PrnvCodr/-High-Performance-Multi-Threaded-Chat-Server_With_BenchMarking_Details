@@ -8,6 +8,8 @@
 A high-performance chat server built for Windows using modern C++17, featuring lock-free data structures, asynchronous I/O, and comprehensive performance benchmarking.
 <img width="1457" height="843" alt="Screenshot 2026-03-02 234422" src="https://github.com/user-attachments/assets/a3ef63b3-3a9c-4363-9ae9-f04126237b5d" />
 <img width="1253" height="861" alt="Screenshot 2026-03-02 234611" src="https://github.com/user-attachments/assets/985e05f7-d264-4ffc-8f49-a09902969a5e" />
+Ocean Plugin Pipeline Image ->
+<img width="936" height="247" alt="Screenshot 2026-03-03 123101" src="https://github.com/user-attachments/assets/431c3df2-46c5-4850-9a7f-20f10f948378" />
 
 ---
 
